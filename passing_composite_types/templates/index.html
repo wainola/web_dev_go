@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Passing Composyte types</title>
+</head>
+<body>
+    <div>
+        <h1>Slices de nombres</h1>
+        {{ $slice := . }}
+        <p>
+            {{ range $index, $value := $slice }}
+                <ul>
+                    <li>{{ $index }} => {{ $value }}</li>
+                </ul>
+            {{ end }}
+        </p>
+    </div>
+    
+</body>
+</html>
