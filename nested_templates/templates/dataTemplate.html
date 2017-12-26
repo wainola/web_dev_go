@@ -1,0 +1,8 @@
+{{ define "tempData" }}
+    <h1>Data pasada al template</h1>
+    <p>
+        {{ $perrito := . }}
+
+        {{ $perrito.GetNombre }} + {{ $perrito.GetEdad }}
+    </p>
+{{ end }}
