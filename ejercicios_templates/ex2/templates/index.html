@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Parseando estructura de datos compuesta</title>
+</head>
+<body>
+    <h1>Lista de elemento en la estructura de datos.</h1>
+    {{ $hoteles := . }}
+    {{ range $hoteles }}
+        <ul>
+            <li>
+                {{ .Nombre }} => {{ .Direccion }} => {{ .Comuna}} <br>
+                Lat: {{ .Ubicacion.Coords.Lat }} <br>
+                Lng: {{ .Ubicacion.Coords.Lng }} <br>
+            </li>
+        </ul>
+    {{ end }}
+    
+</body>
+</html>
