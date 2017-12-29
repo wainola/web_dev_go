@@ -2,44 +2,52 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"strings"
+	"os"
 )
 
 func main() {
-	data, err := ioutil.ReadFile("./data/data.csv")
+	// Abrimos el archivo con os.Open
+	data, err := os.Open("./data/data.csv")
 	if err != nil {
 		log.Fatal("no se pudo leer el archivo")
 	}
-	// Conversion de []byte a string para poder trabajar con el archivo
-	d := strings.Split(string(data), ",")
+	defer data.Close()
 
-	// Ahora hay que procesar la informacion.
-	// Tomar cabecera primeros. Guardamos un mapa con las cabeceras y el valor del mapa es un slice donde guardamos los datos.
-	m := make(map[string][]string)
-	// Seteando las cabeceras de la tabla
-	m[d[0]] = []string{}
-	m[d[1]] = []string{}
-	m[d[2]] = []string{}
-	m[d[3]] = []string{}
-	m[d[4]] = []string{}
-	m[d[5]] = []string{}
-	// setando la ultima cabecera de la tabla.
-	s := strings.Split(d[6], "\n")
-	primera_fecha := s[1]
-	m[s[0]] = []string{}
-	fmt.Println(m)
-	fmt.Println(primera_fecha)
+	// Parseamos a csv.
+	reader := csv.NewReader(data)
 
-	// Recorremos el fichero que es un slices de strings. Desde la posicion 7.
-	for index, value := range d {
-		// if math.Mod(float64(index), float64(7)) == 0 && index > 6 {
-		// 	fmt.Printf("Fechas: %v\n", value)
-		// }
-		if index == 8 {
-			fmt.Println(value)
-		}
+	// Generamos mapa para setear nuestr estructura de datos.
+	// Mapa con llaves de string y slice de strings.
+	datos := make(map[string][]string)
+
+	cabeceras, err := reader.Read()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, value := range cabeceras {
+		// Seteando cabeceras del map.
+		datos[value] = []string{}
+	}
+
+	//fmt.Println(datos)
+
+	d, err := reader.ReadAll()
+	for _, value := range d {
+		// Con eso procesamos y seteamos correctamente el mapa
+		datos["Date"] = append(datos["Date"], value[0])
+		datos["Open"] = append(datos["Open"], value[1])
+		datos["High"] = append(datos["High"], value[2])
+		datos["Low"] = append(datos["Low"], value[3])
+		datos["Close"] = append(datos["Close"], value[4])
+		datos["Volume"] = append(datos["Volume"], value[5])
+		datos["Adj Close"] = append(datos["Adj Close"], value[6])
+	}
+
+	// Iteracion sobre los datos como prueba
+	for index := range datos["Date"] {
+		fmt.Println(datos["Date"][index], " ", datos["Volume"][index])
 	}
 }
