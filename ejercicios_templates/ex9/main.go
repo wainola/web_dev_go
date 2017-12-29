@@ -3,10 +3,16 @@ package main
 
 import (
 	"encoding/csv"
-	"fmt"
 	"log"
 	"os"
+	"text/template"
 )
+
+var tpl *template.Template
+
+func init() {
+	tpl = template.Must(template.ParseFiles("templates/index.html"))
+}
 
 func main() {
 	// Abrimos el archivo con os.Open
@@ -47,7 +53,12 @@ func main() {
 	}
 
 	// Iteracion sobre los datos como prueba
-	for index := range datos["Date"] {
-		fmt.Println(datos["Date"][index], " ", datos["Volume"][index])
+	// for index := range datos["Date"] {
+	// 	fmt.Println(datos["Date"][index], " ", datos["Volume"][index])
+	// }
+
+	t := tpl.ExecuteTemplate(os.Stdout, "index.html", datos)
+	if t != nil {
+		log.Fatal(t)
 	}
 }

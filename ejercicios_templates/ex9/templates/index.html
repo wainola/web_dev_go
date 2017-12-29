@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Parsing CSV</title>
+</head>
+<body>
+
+    <h1>
+        Stock Market Data
+    </h1>
+    
+    {{ $data := . }}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>Volume</th>
+            <th>Adj Close</th>
+        </tr>
+        <tr>
+            {{ range $k, $v := $data }}
+                <td>{{ $k }} => {{ $v }}</td>
+            {{ end }}
+        </tr>
+    </table>
+</body>
+</html>
